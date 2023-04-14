@@ -13,16 +13,18 @@ const { NotImplementedError } = require('../extensions/index.js');
  *
  */
 class DepthCalculator {
-  calculateDepth(array) {
-    let i = 0;
-    while(array.length){
-         i++;
-         array = array.reduce( (level, el) => {
-              if(Array.isArray(el)) level.push(...el);
-              return level;
-         }, []);
+  calculateDepth(arr) {
+    let result = 1;
+
+    let newArr = [...arr]
+    for (let i = 0; i <= newArr.length; i++) {
+      if (Array.isArray(newArr[i])) {
+        newArr = newArr.flat()  //возвращает новый массив, в котором все элементы вложенных подмассивов были рекурсивно "подняты" на указанный уровень depth.
+        result += this.calculateDepth(newArr)
+        return result
+      }
     }
-    return i;
+    return result
   }
 }
 
